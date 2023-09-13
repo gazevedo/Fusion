@@ -1,9 +1,9 @@
 import customtkinter as ctk
 
+from master.controller.ViewController import ViewController
 from master.controller.ProdutosController import ProdutosController
 from master.view.FrmCadastro import FrmCadastro
 from master.view.components.CustomTable import CustomTable
-from master.controller.ViewController import ViewController
 
 produtosController = ProdutosController()
 
@@ -14,11 +14,11 @@ class FrmPrincipal(ctk.CTk, ViewController):
         self.root = root
         self.setScreenMax()
 
-        # frame barra de atalhos
+        # frame atalhos
         self.frame_tools = ctk.CTkFrame(self, height=50)
         self.frame_tools.pack(side="top", fill="both")
 
-        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="cadastro", command=self.onclick_cadastro)
+        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="cadastro")
         self.btn_cadastro.pack(side="left")
 
         # label
@@ -37,9 +37,8 @@ class FrmPrincipal(ctk.CTk, ViewController):
 
         # table
         header = ["Produto", "Qtd", "Valor Unit", "Total"]
-
         self.table = CustomTable(self.frame_list, header, produtosController.listaProdutos)
-        self.table.pack()
+
         self.mainloop()
 
     def onclick_cadastro(self):

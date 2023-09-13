@@ -1,7 +1,3 @@
-import customtkinter
-from PIL import Image
-import os
-
 
 class ViewController:
     def __init__(self):

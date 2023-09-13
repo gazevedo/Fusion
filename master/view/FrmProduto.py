@@ -1,8 +1,7 @@
 import customtkinter as ctk
 
-from master.controller.ProdutosController import ProdutosController
 from master.controller.ViewController import ViewController
-from master.model.Produto import Produto
+from master.controller.ProdutosController import ProdutosController
 
 window_width = 400
 window_height = 500

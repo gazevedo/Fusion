@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from View.FrmLogin import FrmLogin
-from View.FrmPrincipal import FrmPrincipal
+from master.view.FrmLogin import FrmLogin
+from master.view.FrmPrincipal import FrmPrincipal
 
 
 def main():

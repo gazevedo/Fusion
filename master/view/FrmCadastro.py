@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from master.controller.ProdutosController import ProdutosController
 from master.controller.ViewController import ViewController
+from master.controller.ProdutosController import ProdutosController
 from master.model.Produto import Produto
 from master.view.FrmProduto import FrmProduto
 from master.view.components.CustomTable import CustomTable
