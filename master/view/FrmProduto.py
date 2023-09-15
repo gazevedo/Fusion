@@ -11,14 +11,14 @@ font_size = 16
 
 
 class FrmProduto(ctk.CTk, ViewController):
-    def __init__(self, root, on_close_callback=None, object=""):
+    def __init__(self, root, save_callback=None, object=""):
         super().__init__()
         self.produtoController = ProdutosController()
         self.root = root
         self.object = object
         self.title("Novo produto")
-        self.on_close_callback = on_close_callback
-        self.protocol("WM_DELETE_WINDOW", self._on_window_close)
+        self.save_callback = save_callback
+        #self.protocol("WM_DELETE_WINDOW", self._on_window_close)
         self.setScreeSize(window_width, window_height)
         self.centerOnScreen(window_width, window_height)
 
@@ -45,16 +45,17 @@ class FrmProduto(ctk.CTk, ViewController):
         self.etValor = ctk.CTkEntry(self.frame_info, width=label_width, font=ctk.CTkFont(size=font_size))
         self.etValor.pack(padx=(10, 10), pady=(5, 5))
 
-        self.login_button = ctk.CTkButton(self.frame_info, text="Salvar", width=200, command=self._on_window_close)
-        self.login_button.pack(padx=(10, 10), pady=(50, 10))
-        if(self.object != ""):
-            self.__loadView()
+        self.btn_salvar = ctk.CTkButton(self.frame_info, text="Salvar", width=200, command=self._on_click_salvar)
+        self.btn_salvar.pack(padx=(10, 10), pady=(50, 10))
+        if self.object == "":
+            pass
+        else:
+            self._loadView()
         self.mainloop()
 
-    def _on_window_close(self):
-        print("fechando")
-        if self.on_close_callback:
-            self.on_close_callback(self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get())
+    def _on_click_salvar(self):
+        if self.save_callback:
+            self.save_callback(self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get())
         self.destroy()
 
     def _loadView(self):

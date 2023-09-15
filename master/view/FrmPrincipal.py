@@ -18,7 +18,7 @@ class FrmPrincipal(ctk.CTk, ViewController):
         self.frame_tools = ctk.CTkFrame(self, height=50)
         self.frame_tools.pack(side="top", fill="both")
 
-        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="cadastro")
+        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="cadastro", command=self._onclick_cadastro)
         self.btn_cadastro.pack(side="left")
 
         # label
@@ -41,5 +41,5 @@ class FrmPrincipal(ctk.CTk, ViewController):
 
         self.mainloop()
 
-    def onclick_cadastro(self):
+    def _onclick_cadastro(self):
         FrmCadastro(self)
