@@ -9,7 +9,7 @@ def main():
     ctk.set_appearance_mode("light")
     ctk.set_default_color_theme("blue")
     app = ctk.CTk()  # Cria uma instância da aplicação
-    FrmCadastro(app)  # Passe a instância da aplicação para a janela de login
+    FrmPrincipal(app)  # Passe a instância da aplicação para a janela de login
     app.mainloop()
 
 

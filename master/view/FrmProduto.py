@@ -11,11 +11,12 @@ font_size = 16
 
 
 class FrmProduto(ctk.CTk, ViewController):
-    def __init__(self, root, save_callback=None, object=""):
+    def __init__(self, root, save_callback=None, object="", index=""):
         super().__init__()
         self.produtoController = ProdutosController()
         self.root = root
         self.object = object
+        self.index = index
         self.title("Novo produto")
         self.save_callback = save_callback
         #self.protocol("WM_DELETE_WINDOW", self._on_window_close)
@@ -51,11 +52,13 @@ class FrmProduto(ctk.CTk, ViewController):
             pass
         else:
             self._loadView()
+            self.edit = True
+
         self.mainloop()
 
     def _on_click_salvar(self):
         if self.save_callback:
-            self.save_callback(self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get())
+            self.save_callback(self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get(), self.index)
         self.destroy()
 
     def _loadView(self):

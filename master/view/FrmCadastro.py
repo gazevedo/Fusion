@@ -34,37 +34,19 @@ class FrmCadastro(ctk.CTk, ViewController):
         # criando tabela
         header = ["Código", "Produto", "Descrição", "Valor"]
         self.productTable = CustomTable(self.frame_list, header, produtosController.getListProducts(), self._on_table_click)
-        #self.productTable.pack()
-        # produto = Produto("codigo", "nome", "descricao", 1)
-        # self.productTable.insertRow(produto)
 
         # criando tabela
         header = ["Código", "Produto", "Descrição", "Valor"]
-        #product_data = produtosController.getListProducts()
-        #self.productTable = CustomTable(self.frame_list, header, product_data, self._on_table_click)
-        #self.productTable.pack()
-        #self.productTable.insertRow(Produto("codigo", "nome", "descricao", 1))
-
-
         self.mainloop()
 
-    def click(self):
-        print("click cadastro")
-        produto = Produto("123", "nome", "descricao", 1)
-        self.productTable.insertRow(produto)
+    def _on_save(self, codigo, nome, descricao, valor, index):
+        if (index == ""):
+            self.productTable.insertRow(Produto(codigo, nome, descricao, valor))
+        else:
+            print("edit")
+            self.productTable.updateRow(Produto(codigo, nome, descricao, valor), index)
 
-    def _on_save(self, codigo, nome, descricao, valor):
-        # produtosController.listaProdutos.append()
-        self.productTable.insertRow(Produto(codigo, nome, descricao, valor))
-        # produto = Produto(codigo, nome, descricao, valor)
-        # print(produto.codigo)
-        # self.productTable.insertRow()
-        # produto = Produto(codigo, nome, descricao, valor)
-        # print("cd: " + produto.codigo + "- pr:" + produto.nome + "- desc" + produto.descricao)
-        # self._loadView()
-        # self.productTable.insertRow()
-
-    def _on_table_click(self, values):
-        FrmProduto(self.root, self._on_save, values)
+    def _on_table_click(self, values, index):
+        FrmProduto(self.root, self._on_save, values, index)
 
 

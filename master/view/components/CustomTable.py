@@ -27,11 +27,23 @@ class CustomTable(ctk.CTk):
         self.tree.pack(side="left", fill="both", expand=True)
 
     def _on_row_click(self, event):
-        item = self.tree.selection()[0]  # Pega o item selecionado na Treeview
-        values = self.tree.item(item, 'values')  # Pega os valores da linha selecionada
+        item = self.tree.selection()[0]
+        values = self.tree.item(item, 'values')
+        index = self.tree.index(item)  # Obtém o índice da linha selecionada
         if self.onclick:
-            self.onclick(values)
+            self.onclick(values, index)
 
     def insertRow(self, row):
         print("inere linha")
         self.tree.insert("", "end", values=(row.codigo, row.nome, row.descricao, row.valor))
+
+    def updateRow(self, row, index):
+        children = self.tree.get_children()
+        if 0 <= index < len(children):
+            item = children[index]
+            values = (row.codigo, row.nome, row.descricao, row.valor)
+            self.tree.item(item, values=values)
+            print(f"Row at index {index} updated with values: {values}")
+        else:
+            print(f"Invalid index: {index}")
+
