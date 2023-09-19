@@ -47,3 +47,9 @@ class CustomTable(ctk.CTk):
         else:
             print(f"Invalid index: {index}")
 
+    def delete(self, row, index):
+        children = self.tree.get_children()
+        item = children[index]
+        self.tree.delete(item)
+
+

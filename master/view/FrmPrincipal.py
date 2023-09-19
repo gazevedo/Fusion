@@ -18,12 +18,12 @@ class FrmPrincipal(ctk.CTk, ViewController):
         self.frame_tools = ctk.CTkFrame(self, height=50)
         self.frame_tools.pack(side="top", fill="both")
 
-        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="cadastro", command=self._onclick_cadastro)
+        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="Cad. Produtos", command=self._onclick_cadastro)
         self.btn_cadastro.pack(side="left")
 
         # label
         self.login_label = ctk.CTkLabel(self, text="Texto", font=ctk.CTkFont(size=40, weight="bold"))
-        self.login_label.pack(pady=(30, 5))
+        self.login_label.pack(pady=(20, 20))
 
         # Frame Lista
         self.frame_list = ctk.CTkFrame(self)
@@ -32,14 +32,22 @@ class FrmPrincipal(ctk.CTk, ViewController):
         # Frame menu
         self.frame_shortcut = ctk.CTkFrame(self)
         self.frame_shortcut.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+
         self.search = ctk.CTkEntry(self.frame_shortcut, placeholder_text="pesquisar")
         self.search.pack(side="top", fill="x", padx=10, pady=10)
+        self.search.bind("<KeyRelease>", self._on_key_release)
 
         # table
         header = ["Produto", "Qtd", "Valor Unit", "Total"]
-        self.table = CustomTable(self.frame_list, header, produtosController.listaProdutos)
+        self.table = CustomTable(self.frame_list, header, "")
 
         self.mainloop()
 
     def _onclick_cadastro(self):
         FrmCadastro(self)
+
+    def _on_key_release(self, event):
+        # Função chamada quando uma tecla é solta no campo de pesquisa
+        search_text = self.search.get()  # Obtém o texto digitado no campo de pesquisa
+        # Realize ações com base no texto da pesquisa, se necessário
+        print("Texto da pesquisa:", search_text)

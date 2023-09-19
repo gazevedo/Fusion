@@ -9,16 +9,19 @@ label_width = 300
 label_height = 40
 font_size = 16
 
+ACTION_INSERT = 0
+ACTION_UPDATE = 1
+ACTION_DELETE = 2
 
 class FrmProduto(ctk.CTk, ViewController):
-    def __init__(self, root, save_callback=None, object="", index=""):
+    def __init__(self, root, item_callback=None, object="", index=""):
         super().__init__()
         self.produtoController = ProdutosController()
         self.root = root
         self.object = object
         self.index = index
         self.title("Novo produto")
-        self.save_callback = save_callback
+        self.item_callback = item_callback
         #self.protocol("WM_DELETE_WINDOW", self._on_window_close)
         self.setScreeSize(window_width, window_height)
         self.centerOnScreen(window_width, window_height)
@@ -46,19 +49,27 @@ class FrmProduto(ctk.CTk, ViewController):
         self.etValor = ctk.CTkEntry(self.frame_info, width=label_width, font=ctk.CTkFont(size=font_size))
         self.etValor.pack(padx=(10, 10), pady=(5, 5))
 
-        self.btn_salvar = ctk.CTkButton(self.frame_info, text="Salvar", width=200, command=self._on_click_salvar)
-        self.btn_salvar.pack(padx=(10, 10), pady=(50, 10))
+        self.btn_salvar = ctk.CTkButton(self.frame_info, text="Salvar", width=200,
+                                        command=lambda: self._on_click_salvar(self.edit))
+        self.btn_salvar.pack(padx=(10, 10), pady=(50, 5))
+
         if self.object == "":
-            pass
+            self.edit = ACTION_INSERT
         else:
             self._loadView()
-            self.edit = True
+            self.edit = ACTION_UPDATE
+            self.btn_delete = ctk.CTkButton(self.frame_info, text="Excluir", width=200,
+                                            command=lambda: self._on_click_salvar(ACTION_DELETE))
+            self.btn_delete.pack(padx=(10, 10), pady=(5, 10))
+
+
+
 
         self.mainloop()
 
-    def _on_click_salvar(self):
-        if self.save_callback:
-            self.save_callback(self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get(), self.index)
+    def _on_click_salvar(self, action):
+        if self.item_callback:
+            self.item_callback(action, self.index, self.etCodigo.get(), self.etNome.get(), self.etDescricao.get(), self.etValor.get())
         self.destroy()
 
     def _loadView(self):

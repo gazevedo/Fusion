@@ -39,12 +39,14 @@ class FrmCadastro(ctk.CTk, ViewController):
         header = ["Código", "Produto", "Descrição", "Valor"]
         self.mainloop()
 
-    def _on_save(self, codigo, nome, descricao, valor, index):
-        if (index == ""):
-            self.productTable.insertRow(Produto(codigo, nome, descricao, valor))
+    def _on_save(self, action, index, codigo, nome, descricao, valor):
+        newProduct = Produto(codigo, nome, descricao, valor)
+        if action == 0:
+            self.productTable.insertRow(newProduct)
+        elif action == 1:
+            self.productTable.updateRow(newProduct, index)
         else:
-            print("edit")
-            self.productTable.updateRow(Produto(codigo, nome, descricao, valor), index)
+            self.productTable.delete(newProduct, index)
 
     def _on_table_click(self, values, index):
         FrmProduto(self.root, self._on_save, values, index)
