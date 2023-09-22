@@ -1,7 +1,7 @@
 from master.model.Produto import Produto
 
 
-class ProdutosMock:
+class ProdutosDao:
     def __init__(self):
         self.listaProdutos = []
         self.listaProdutos.append(Produto(1, "Produto1", "desc1", 5))

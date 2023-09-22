@@ -1,32 +1,23 @@
-from master.dal.ProdutosMock import ProdutosMock
+from master.dal.DbConnection import DbConnection
 from master.model.Produto import Produto
 
 
 class ProdutosController:
     def __init__(self):
-        self.listaProdutos = ProdutosMock().getList()
+        self.DbConnection = DbConnection()
+        self.listaProdutos = []
+        self.DataBase = "PRODUTOS"
 
-    def create(self, codigo, nome, descricao, valor):
-        self.listaProdutos.append(Produto(codigo, nome, descricao, valor))
+    def SaveProduct(self, produto):
+        return self.DbConnection.create(self.DataBase, produto)
 
-    def read(self, codigo):
-        for item in self.listaProdutos:
-            if item.codigo == codigo:
-                return item
-            else:
-                return ""
-
-    def update(self, codigo, produto):
-        for item in self.listaProdutos:
-            if item.codigo == codigo:
-                item = produto
-                break
-
-    def delete(self, codigo):
-        for item in self.listaProdutos:
-            if item.codigo == codigo:
-                self.listaProdutos.remove(item)
-                break
+    def UpdateProduct(self, produto):
+        return self.DbConnection.update(self.DataBase, produto)
 
     def getListProducts(self):
-        return self.listaProdutos
+        result = []
+        result = self.DbConnection.getAll(self.DataBase)
+        print(result)
+        if result is None:
+            return []
+        return result

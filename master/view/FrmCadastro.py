@@ -1,12 +1,10 @@
 import customtkinter as ctk
 
-from master.controller.ViewController import ViewController
 from master.controller.ProdutosController import ProdutosController
+from master.controller.ViewController import ViewController
 from master.model.Produto import Produto
 from master.view.FrmProduto import FrmProduto
 from master.view.components.CustomTable import CustomTable
-
-produtosController = ProdutosController()
 
 
 class FrmCadastro(ctk.CTk, ViewController):
@@ -17,7 +15,9 @@ class FrmCadastro(ctk.CTk, ViewController):
         self.title("Cadastro de Produtos")
         self.root = root
 
-        # Frame Barra
+        self.produtosController = ProdutosController()
+
+        # Frame Barra ferramentas
         self.frame_tools = ctk.CTkFrame(self, height=50)
         self.frame_tools.pack(side="top", fill="both")
 
@@ -25,30 +25,35 @@ class FrmCadastro(ctk.CTk, ViewController):
         self.frame_list = ctk.CTkFrame(self)
         self.frame_list.pack(side="top", fill="both", expand=True, padx=10, pady=10)
 
-        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="Novo", command=lambda: FrmProduto(self.root, self._on_save))
+        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="Novo",
+                                          command=lambda: FrmProduto(self.root, self._on_save))
         self.btn_cadastro.pack(side="left")
 
-        # self.btn_teste = ctk.CTkButton(self.frame_tools, text="btn_teste", command=self.click)
-        # self.btn_teste.pack(side="left")
-
         # criando tabela
         header = ["Código", "Produto", "Descrição", "Valor"]
-        self.productTable = CustomTable(self.frame_list, header, produtosController.getListProducts(), self._on_table_click)
+        self.productTable = CustomTable(self.frame_list, header, self.produtosController.getListProducts(),
+                                        self._on_table_click)
 
-        # criando tabela
-        header = ["Código", "Produto", "Descrição", "Valor"]
         self.mainloop()
 
     def _on_save(self, action, index, codigo, nome, descricao, valor):
         newProduct = Produto(codigo, nome, descricao, valor)
+
         if action == 0:
-            self.productTable.insertRow(newProduct)
+            result = self.produtosController.SaveProduct(newProduct)
+            if result.success:
+                self.productTable.insertRow(newProduct)
+            else:
+                print(result.message)
         elif action == 1:
-            self.productTable.updateRow(newProduct, index)
+            result = self.produtosController.UpdateProduct(newProduct)
+            if result.success:
+                self.productTable.updateRow(newProduct, index)
+            else:
+                print(result.message)
+
         else:
             self.productTable.delete(newProduct, index)
 
     def _on_table_click(self, values, index):
         FrmProduto(self.root, self._on_save, values, index)
-
-

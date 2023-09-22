@@ -1,53 +1,63 @@
 import customtkinter as ctk
 
 from master.controller.ViewController import ViewController
-from master.controller.ProdutosController import ProdutosController
+from master.view.Formulario2 import Formulario2
 from master.view.FrmCadastro import FrmCadastro
-from master.view.components.CustomTable import CustomTable
+from master.view.FrmConfig import FrmConfig
+from master.view.FrmControleMesa import FrmControleMesa
 
-produtosController = ProdutosController()
+FRM_CADASTRO = 1
+FRM_CONFIG = 2
 
+FRM_CTRL_MESA = 3
+FRM_CTRL_COMANDA = 4
 
 class FrmPrincipal(ctk.CTk, ViewController):
     def __init__(self, root):
         super().__init__()
         self.root = root
         self.setScreenMax()
+        self.title("Sistema")
 
-        # frame atalhos
+        # frame menu ferramentas
         self.frame_tools = ctk.CTkFrame(self, height=50)
         self.frame_tools.pack(side="top", fill="both")
 
-        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="Cad. Produtos", command=self._onclick_cadastro)
+        # frame menu views
+        self.frame_views = ctk.CTkFrame(self, width=50, corner_radius=0)
+        self.frame_views.pack(side="left", fill="both")
+
+        #botoes
+        self.btn_cadastro = ctk.CTkButton(self.frame_tools, text="Prod.", width=50, height=50, command=lambda: self._onclick_menu(FRM_CADASTRO))
         self.btn_cadastro.pack(side="left")
+        self.btn_config = ctk.CTkButton(self.frame_tools, text="Config.", width=50, height=50, command=lambda: self._onclick_menu(FRM_CONFIG))
+        self.btn_config.pack(side="left")
 
-        # label
-        self.login_label = ctk.CTkLabel(self, text="Texto", font=ctk.CTkFont(size=40, weight="bold"))
-        self.login_label.pack(pady=(20, 20))
+        self.botao_formulario1 = ctk.CTkButton(self.frame_views, text="Fr1", width=50, command=lambda: self._onclick_view(FRM_CTRL_MESA))
+        self.botao_formulario1.pack(pady=(200, 3))
 
-        # Frame Lista
-        self.frame_list = ctk.CTkFrame(self)
-        self.frame_list.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+        self.botao_formulario2 = ctk.CTkButton(self.frame_views, text="Fr2", width=50, command=lambda: self._onclick_view(FRM_CTRL_COMANDA))
+        self.botao_formulario2.pack()
 
-        # Frame menu
-        self.frame_shortcut = ctk.CTkFrame(self)
-        self.frame_shortcut.pack(side="left", fill="both", expand=True, padx=10, pady=10)
-
-        self.search = ctk.CTkEntry(self.frame_shortcut, placeholder_text="pesquisar")
-        self.search.pack(side="top", fill="x", padx=10, pady=10)
-        self.search.bind("<KeyRelease>", self._on_key_release)
-
-        # table
-        header = ["Produto", "Qtd", "Valor Unit", "Total"]
-        self.table = CustomTable(self.frame_list, header, "")
+        self.formulario_atual = None  # Para controlar o formulário exibido
 
         self.mainloop()
 
-    def _onclick_cadastro(self):
-        FrmCadastro(self)
+    def _onclick_menu(self, id):
+        if id == FRM_CADASTRO:
+            FrmCadastro(self)
+        elif id == FRM_CONFIG:
+            FrmConfig(self)
 
-    def _on_key_release(self, event):
-        # Função chamada quando uma tecla é solta no campo de pesquisa
-        search_text = self.search.get()  # Obtém o texto digitado no campo de pesquisa
-        # Realize ações com base no texto da pesquisa, se necessário
-        print("Texto da pesquisa:", search_text)
+    def _onclick_view(self, id):
+        newForm = None
+        if self.formulario_atual:
+            self.formulario_atual.destroy()
+
+        if id == FRM_CTRL_MESA:
+            newForm = FrmControleMesa(self)
+        elif id == FRM_CTRL_COMANDA:
+            newForm = Formulario2(self)
+
+        self.formulario_atual = newForm
+        newForm.pack(side="left", fill="both", expand=True)

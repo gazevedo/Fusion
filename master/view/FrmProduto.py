@@ -16,7 +16,7 @@ ACTION_DELETE = 2
 class FrmProduto(ctk.CTk, ViewController):
     def __init__(self, root, item_callback=None, object="", index=""):
         super().__init__()
-        self.produtoController = ProdutosController()
+        # self.produtoController = ProdutosController()
         self.root = root
         self.object = object
         self.index = index

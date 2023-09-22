@@ -1,6 +1,6 @@
 class Produto:
-    def __init__(self):
-        self.codigo = ""
-        self.nome = ""
-        self.descricao = ""
-        self.valor = ""
+    def __init__(self, codigo, nome, descricao, valor):
+        self.codigo = codigo
+        self.nome = nome
+        self.descricao = descricao
+        self.valor = valor
