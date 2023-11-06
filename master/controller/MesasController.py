@@ -1,26 +1,13 @@
-from master.dal.MesasMock import MesasMock
-from master.model.Mesa import Mesa
-
+from master.dal.MesasDao import MesasDao
 
 class MesasController:
     def __init__(self):
-        self.listaMesas = MesasMock().getList()
+        self.mesasDao = MesasDao()
 
-    def create(self, id):
-        self.listaMesas.append(Mesa(id))
-
-    def read(self, id):
-        for item in self.listaMesas:
-            if item.id == id:
-                return item
-            else:
-                return ""
-
-    def delete(self, id):
-        for item in self.listaMesas:
-            if item.id == id:
-                self.listaMesas.remove(item)
-                break
-
-    def getListMesas(self):
-        return self.listaMesas
+    # def create(self, id):
+    #
+    # def read(self, id):
+    #
+    # def delete(self, id):
+    #
+    # def getListMesas(self):

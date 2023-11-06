@@ -11,9 +11,8 @@ label_height = 40
 
 
 class FrmLogin(customtkinter.CTk, ViewController):
-    def __init__(self, window):
+    def __init__(self):
         super().__init__()
-        self.window = window  # Armazena a instância da aplicação
         self.title("LOGIN")
         self.setScreeSize(window_width, window_height)
         self.centerOnScreen(window_width, window_height)

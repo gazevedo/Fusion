@@ -1,9 +1,9 @@
+from PIL import Image, ImageTk
+
 
 class ViewController:
     def __init__(self):
         super().__init__()
-        self.bg_image_label = None
-        self.bg_image = None
 
     def setScreeSize(self, width, height):
         self.geometry(f"{width}x{height}")

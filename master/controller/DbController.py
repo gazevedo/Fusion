@@ -35,6 +35,21 @@ class DbController:
             if "table MIGRATION already exists" in str(e):
                 return True
             else:
+                print("Migration Error:", e)
+                return False
+
+    def executeNoQuery(self, script):
+        try:
+            self.conn = DbConnection().conn
+            cursor = self.conn.cursor()
+            cursor.execute(script)
+            self.conn.commit()
+            self.conn.close()
+            return True
+        except Exception as e:
+            if "table MIGRATION already exists" in str(e):
+                return True
+            else:
                 print("Migration:", e)
                 return False
 

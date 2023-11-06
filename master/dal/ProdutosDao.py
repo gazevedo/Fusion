@@ -1,14 +1,25 @@
-from master.model.Produto import Produto
+from master.controller.DbController import DbController
 
 
 class ProdutosDao:
     def __init__(self):
-        self.listaProdutos = []
-        self.listaProdutos.append(Produto(1, "Produto1", "desc1", 5))
-        self.listaProdutos.append(Produto(2, "Produto2", "desc2", 7.10))
-        self.listaProdutos.append(Produto(3, "Produto3", "desc3", 2.50))
-        self.listaProdutos.append(Produto(4, "Produto4", "desc4", 18.70))
-        self.listaProdutos.append(Produto(5, "Produto5", "desc5", 54.20, ))
+        self.dbController = DbController()
 
-    def getList(self):
-        return self.listaProdutos
+    def create(self, produto):
+        sql = "insert into produtos(id, nome, descricao, valor, imagem) values ({0}, '{1}', '{2}', {3}, '{4}')".format(
+            produto.codigo, produto.nome, produto.descricao, produto.valor, produto.imagem)
+        return self.dbController.executeNoQuery(sql)
+
+    def update(self, produto):
+        sql = "update produtos set nome='{1}', descricao='{2}', valor={3}, imagem='{4}' where id = {0}".format(
+            produto.codigo, produto.nome, produto.descricao, produto.valor, produto.imagem)
+        return self.dbController.executeNoQuery(sql)
+
+    def delete(self, produto):
+        sql = "delete from produtos where id = {0}".format(produto.codigo)
+        return self.dbController.executeNoQuery(sql)
+
+    def getProducts(self):
+        sql = "select * from produtos"
+        return self.dbController.executeQuery(sql)
+
